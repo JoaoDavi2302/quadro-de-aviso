@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Quadro de avisos</title>
+</head>
+<body>
+    <h1>Quadro de avisos</h1>
+
+    <div class="tutorial">
+        <p>Clique com o <strong>botão esquerdo</strong> e arraste para mover um post-it.</p>
+        <p>Clique com o <strong>botão direito</strong> para excluir um post-it.</p>
+        <button id="abrir-form">➕ Nova mensagem</button>
+    </div>
+
+    <div class="postit">
+        {% for m in mensagem %}
+        <div class="aviso" data-id="{{ m.id }}">
+                <h3>{{m.pessoa}}</h3>
+                <p>{{m.conteudo}}</p>
+                <small>{{ m.data| date:"d/m/Y"}} {{m.hora| date:"H:i"}}</small>
+        </div>
+            {% endfor %}
+        
+    </div>
+  
+
+    <div id="form-container" class="hidden">
+        <form method="post" action="{% url 'add' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" id="abrir-form">Salvar</button>
+            <button type="submit" id="fechar-form">Cancelar</button>
+        </form>
+            
+    </div>
+
+    <script src="{% static 'js/dragger.js' %}"></script>
+    <script src="{% static 'js/delete.js' %}"></script>
+    <script src="{% static 'js/forms.js' %}"></script>
+</body>
+</html>
